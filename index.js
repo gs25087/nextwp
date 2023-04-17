@@ -34,13 +34,11 @@ app.post('/deploy', async (req, res) => {
       const imageUrl = 'ghcr.io/gs25087/imagename';
 
       try {
-        res.status(100).send('xxInternal server error', { containerName, composeFile });
         await docker.pull(imageUrl, {});
 
         const containerName = 'webhook-handler_nextjs-app_1';
         const composeFile = './docker-compose.yml';
 
-        console.log(`xx`, { containerName, composeFile });
         try {
           const oldContainer = docker.getContainer(containerName);
           await oldContainer.stop();
