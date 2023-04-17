@@ -38,6 +38,7 @@ app.post('/deploy', async (req, res) => {
 
         const containerName = 'webhook-handler_nextjs-app_1';
         const composeFile = './docker-compose.yml';
+        res.status(100).send('xxInternal server error', { containerName, composeFile });
 
         try {
           const oldContainer = docker.getContainer(containerName);
