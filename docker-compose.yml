@@ -1,0 +1,8 @@
+version: '3.8'
+
+services:
+  nextjs-app:
+    image: ghcr.io/gs25087/imagename:latest # Replace with your actual image URL
+    ports:
+      - '3000:3000'
+    restart: always
