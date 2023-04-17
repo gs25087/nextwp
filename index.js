@@ -64,7 +64,7 @@ app.post('/deploy', async (req, res) => {
         console.error(`Error updating production website: ${error}`);
         console.error(error.stack);
         console.error(`Error updating production website: ${error}`);
-        res.status(500).send('3Internal server error');
+        res.status(500).send('3Internal server error', { error, errorStack: error.stack });
       }
     } else {
       res.status(200).send('Ignored non-published package events or non-matching package name');
