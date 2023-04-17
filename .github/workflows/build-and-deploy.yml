@@ -1,23 +1,39 @@
-name: Build and Push Docker Image
+name: Build and Deploy
+
 on:
   push:
-    branches:
-      - main
+    branches: [main]
+
+env:
+  DOCKER_REGISTRY: docker.pkg.github.com
+  DOCKER_USERNAME: ${{ github.actor }}
+  DOCKER_PASSWORD: ${{ secrets.NEXTWP_TOKEN }}
+  DOCKER_IMAGE: ${{ env.DOCKER_REGISTRY }}/${{ github.repository }}:latest
+
 jobs:
-  build-and-push:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-      - name: Login to GitHub Packages
-        uses: docker/login-action@v1
+      - uses: actions/checkout@v2
+
+      - name: Build the Docker image
+        run: |
+          docker build -t $DOCKER_IMAGE .
+
+      - name: Push the Docker image to the GitHub Registry
+        run: |
+          docker push $DOCKER_IMAGE
+          echo "::set-output name=image::${DOCKER_IMAGE}"
+        env:
+          DOCKER_PASSWORD: ${{ secrets.NEXTWP_TOKEN }}
+
+      - name: Save Docker image URL as an output
+        id: output-docker-image
+        run: echo "::set-output name=image::${DOCKER_IMAGE}"
+
+      - name: Upload a deployment artifact
+        uses: actions/upload-artifact@v2
         with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.NEXTWP_TOKEN }}
-      - name: Build and Push Docker Image
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: true
-          tags: ghcr.io/gs25087/imagename:latest
+          name: docker-image
+          path: ${{ steps.output-docker-image.outputs.image }}
