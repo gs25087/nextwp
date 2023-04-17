@@ -19,7 +19,7 @@ export default function Post({ title, featuredImg, author, content, date }) {
         <div>
           <img src={featuredImg} />
         </div>
-        <p className="text-sm mt-5">Written by {author}</p>
+        <p className="text-sm mt-5">Author: {author}</p>
         <p className="text-sm font-semibold mb-5">Published on {new Date(date).toDateString()}</p>
         <div className={styles.post}>{parse(content)}</div>
       </main>
