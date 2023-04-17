@@ -8,7 +8,7 @@ env:
   DOCKER_REGISTRY: docker.pkg.github.com
   DOCKER_USERNAME: ${{ github.actor }}
   DOCKER_PASSWORD: ${{ secrets.NEXTWP_TOKEN }}
-  DOCKER_IMAGE: ${{ env.DOCKER_REGISTRY }}/${{ github.repository }}:latest
+  DOCKER_IMAGE: docker.pkg.github.com/${{ github.repository }}:latest
 
 jobs:
   build:
