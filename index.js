@@ -47,7 +47,7 @@ app.post('/deploy', async (req, res) => {
         // You may need to restart a container, update a Kubernetes deployment, or perform another action.
       } catch (error) {
         console.error(`Error updating production website: ${error}`);
-        res.status(500).send('Internal server error');
+        res.status(500).send('Internal server error1', { action, packageName });
         return;
       }
 
