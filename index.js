@@ -48,7 +48,7 @@ app.post('/deploy', async (req, res) => {
           exec(`docker-compose -f ${composeFile} up -d`, (error, stdout, stderr) => {
             if (error) {
               console.error(`Error starting the updated container: ${error}`);
-              res.status(500).send('Internal server error');
+              res.status(500).send('1Internal server error');
               return;
             }
             console.log(`Started the updated container: ${stdout}`);
@@ -56,11 +56,11 @@ app.post('/deploy', async (req, res) => {
           });
         } catch (error) {
           console.error(`Error updating production website: ${error}`);
-          res.status(500).send('Internal server error');
+          res.status(500).send('2Internal server error');
         }
       } catch (error) {
         console.error(`Error updating production website: ${error}`);
-        res.status(500).send('Internal server error');
+        res.status(500).send('3Internal server error');
       }
     } else {
       res.status(200).send('Ignored non-published package events or non-matching package name');
