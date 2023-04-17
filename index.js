@@ -35,8 +35,7 @@ app.post('/deploy', async (req, res) => {
 
       try {
         await docker.pull(imageUrl, {});
-
-        const containerName = 'webhook-handler_nextjs-app_1';
+        const containerName = 'nextjs-app';
         const composeFile = './docker-compose.yml';
 
         try {
