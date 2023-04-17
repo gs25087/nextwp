@@ -43,20 +43,42 @@ app.post('/deploy', async (req, res) => {
         await docker.pull(imageUrl, {});
 
         // Update the production website
-        // This step depends on your specific deployment scenario.
-        // You may need to restart a container, update a Kubernetes deployment, or perform another action.
+        const containerName = 'webhook-handler_nextjs-app_1';
+        const composeFile = './docker-compose.yml';
+
+        try {
+          // Stop and remove the old container
+          const oldContainer = docker.getContainer(containerName);
+          await oldContainer.stop();
+          await oldContainer.remove();
+
+          // Start a new container with the updated image
+          const exec = require('child_process').exec;
+          exec(`docker-compose -f ${composeFile} up -d`, (error, stdout, stderr) => {
+            if (error) {
+              console.error(`xError starting the updated container: ${error}`);
+              res.status(500).send('yInternal server error');
+              return;
+            }
+            console.log(`34Started the updated container: ${stdout}`);
+            res.status(200).send('qUpdated production website');
+          });
+        } catch (error) {
+          console.error(`aError updating production website: ${error}`);
+          res.status(500).send('bInternal server error');
+        }
       } catch (error) {
-        console.error(`Error updating production website: ${error}`);
-        res.status(500).send('Internal server error1', { action, packageName });
+        console.error(`ppError updating production website: ${error}`);
+        res.status(500).send('11Internal server error1', { action, packageName });
         return;
       }
 
-      res.status(200).send('Updated production website');
+      res.status(200).send('34Updated production website');
     } else {
-      res.status(200).send('Ignored non-published package events or non-matching package name');
+      res.status(200).send('44Ignored non-published package events or non-matching package name');
     }
   } else {
-    res.status(200).send('Ignored non-package events');
+    res.status(200).send('67Ignored non-package events');
   }
 });
 
