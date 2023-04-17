@@ -34,7 +34,7 @@ app.post('/deploy', async (req, res) => {
     console.log('action', action);
     console.log('packageName', packageName);
 
-    if (action === 'published' && packageName === 'your-docker-image-name') {
+    if (action === 'published' && packageName === 'imagename') {
       // Replace this with your Docker image name
       const imageUrl = 'ghcr.io/gs25087/imagename';
 
