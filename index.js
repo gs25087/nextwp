@@ -40,6 +40,7 @@ app.post('/deploy', async (req, res) => {
         const composeFile = './docker-compose.yml';
         res.status(100).send('xxInternal server error', { containerName, composeFile });
 
+        console.log(`xx`, { containerName, composeFile });
         try {
           const oldContainer = docker.getContainer(containerName);
           await oldContainer.stop();
@@ -60,6 +61,8 @@ app.post('/deploy', async (req, res) => {
           res.status(500).send('2Internal server error');
         }
       } catch (error) {
+        console.error(`Error updating production website: ${error}`);
+        console.error(error.stack);
         console.error(`Error updating production website: ${error}`);
         res.status(500).send('3Internal server error');
       }
