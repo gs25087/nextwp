@@ -31,7 +31,7 @@ app.post('/deploy', async (req, res) => {
     const packageName = req.body.package.name;
 
     if (action === 'published' && packageName === 'imagename') {
-      const imageUrl = 'ghcr.io/gs25087/imagename:latest';
+      const imageUrl = 'ghcr.io/gs25087/imagename';
 
       try {
         await docker.pull(imageUrl, {});
